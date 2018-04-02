@@ -3,18 +3,49 @@
 <head>
 	<meta charset="utf-8">
 	<title>Fussball-Ergebnisse</title>
-</head>
-<body>
-	<div class = "header" id = "header"></div>
-	<div class = "nav">
-		<button class = "navButtons" id = "bl1" name = "liga" value = "0">BL1</button>
-		<button class = "navButtons" id = "bl2" name = "liga" value = "1">BL2</button>
-		<button class = "navButtons" id = "bl3" name = "liga" value = "2">BL3</button>
-		<button class = "navButtons" id = "rlb" name = "liga" value = "3">RLB</button>
-		<button class = "navButtons" id = "llso" name = "liga" value = "4">LLSO</button>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	</div>
-	<div class = "content" id = "content"></div>
+  	<link rel="stylesheet" href="styles.css">
+  	<link rel="manifest" href="manifest.json">
+	<meta name="theme-color" content="#ffffff" />
+</head>
+
+<body>
+	<header></header>
+	<nav>
+		<table class = "navTable">
+	  <tr class = "liga">
+		<td><button class = "navButtons" id = "bl1" name = "liga" value = "0">BL1</button></td>
+		<td><button class = "navButtons" id = "bl2" name = "liga" value = "1">BL2</button></td>
+		<td><button class = "navButtons" id = "bl3" name = "liga" value = "2">BL3</button></td>
+		<td><button class = "navButtons" id = "rlb" name = "liga" value = "3">RLB</button></td>
+		<td><button class = "navButtons" id = "llso" name = "liga" value = "4">LLSO</button></td>
+	  </tr>
+
+	  <tr>
+		<td>
+			<button id = "minusButton">-</button>
+		</td>
+
+		<td colspan = 3 id = "matchdayContainer"></td>
+
+		<td>
+			<button id = "plusButton">+</button>
+		</td>
+	  </tr>
+	  </table>
+	</nav>
+	
+
+	<main>
+		<table class = "resultsTable">
+			<tbody id = "resultsTableBody">
+			<tbody>
+		</table>
+		<table class = "tableTable">
+			
+		</table>
+	</main>
 
 
 

@@ -2,4 +2,25 @@
 body{
 
 	font-family: 'RobotoRegular', 'Droid Sans', sans-serif;
+	font-weight: 300;
+	margin: 5px 5px 5px 5px;
 }
+main {
+  
+}
+table{
+	border-collapse: collapse;
+}
+.resultsTable.tr:nth-child(even) {background-color: #eeeeee;}
+.resultsTable{
+	border-collapse: collapse;
+	background-color: #bbbbbb;
+	
+}
+td, th {
+  border: 1px solid #999;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+
