@@ -4,23 +4,47 @@ body{
 	font-family: 'RobotoRegular', 'Droid Sans', sans-serif;
 	font-weight: 300;
 	margin: 5px 5px 5px 5px;
+	width: 95vw;
+
 }
 main {
   
 }
 table{
 	border-collapse: collapse;
+	width: 95%;
+	margin-left:auto; 
+    margin-right:auto;
+    margin-top: 10px;
+	margin-bottom: 10px;
 }
-.resultsTable.tr:nth-child(even) {background-color: #eeeeee;}
+.navTable td{
+    width:17%;
+    
+}
+.resultsTable tr:nth-child(even) {
+	background-color: #dddddd;
+}
+
 .resultsTable{
-	border-collapse: collapse;
-	background-color: #bbbbbb;
 	
-}
+	}
+
+.tableTable tr:nth-child(even){
+	background-color: #dddddd;
+	}
+.tableTable th{
+	background-color: #dddddd;
+	}
+	.navButtons{
+		width: 50px;
+	}
+
+
 td, th {
   border: 1px solid #999;
   padding: 0.5rem;
-  text-align: left;
+  text-align: center;
 }
 
 
