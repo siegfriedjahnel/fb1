@@ -1,4 +1,4 @@
-const competitions = [
+const ligaCompetitions = [
 	{"name":"BL1", "id":"01VM7AT5SK000001VS54898EVSV90M3P-G"},
 	{"name":"BL2", "id":"01VV7REICS00000DVS54898DVTPALDN0-G"},
   {"name":"BL3", "id":"01VM7AUE1K000000VS54898EVSV90M3P-G"},
@@ -7,38 +7,56 @@ const competitions = [
   {"name":"KLIS", "id":"0202NGC3OG000003VS54898EVSIMIKOR-G"}
 ];
 
+const cupCompetitions = [
+  {"name":"CL", "id":"cl1718"},
+  {"name":"EL", "id":"el1718"},
+  {"name":"DFB", "id":"dfbp"}
+];
+var season = "2017";
 var matchday = 0;
 var selMatchday;
-var competitionId = competitions[0].id;
-
-const url = "https://bfv.de/rest/competitioncontroller";
+var competitionId = ligaCompetitions[0].id;
+var type = "";//liga or cup
+const ligaUrl = "https://bfv.de/rest/competitioncontroller";
+const cupUrl = "https://www.openligadb.de/api/getmatchdata";
 
 const matchdayContainer = document.getElementById('matchdayContainer');
 const resultsTableBody = document.getElementById( 'resultsTableBody');
 const tableTableBody = document.getElementById( 'tableTableBody');
 const minusButton = document.getElementById('minusButton');
 const plusButton = document. getElementById('plusButton');
-const navButtons = document.getElementsByClassName('navButtons')
+const ligaButtons = document.getElementsByClassName('ligaButtons');
+const cupButtons = document.getElementsByClassName('cupButtons');
 
-for (var i = 0; i < navButtons.length; i++) {
-    navButtons[i].addEventListener('click', function(){
-    	competitionId = competitions[this.value].id;
+for (var i = 0; i < ligaButtons.length; i++) {
+    ligaButtons[i].addEventListener('click', function(){
+    	competitionId = ligaCompetitions[this.value].id;
     	matchday = 0;
-    	getMatchData(competitionId, matchday);
+      type = "liga";
+    	getMatchData(competitionId, matchday, type);
 
     });
 }
 
+for (var i = 0; i < cupButtons.length; i++) {
+    cupButtons[i].addEventListener('click', function(){
+      competitionId = cupCompetitions[this.value].id;
+      matchday = 0;
+      type = "cup";
+      getMatchData(competitionId, matchday, type);
+
+    });
+}
 minusButton.addEventListener('click', function(){
   selMatchday--;
-  getMatchData(competitionId, selMatchday);
+  getMatchData(competitionId, selMatchday, type);
   
 });
 
 plusButton.addEventListener('click', function(){
   console.log(matchday);
   selMatchday++;
-  getMatchData(competitionId, selMatchday);
+  getMatchData(competitionId, selMatchday, type);
   
 
 });
@@ -53,8 +71,21 @@ if ('serviceWorker' in navigator) {
 //----------------------------------------------------------
 
 //-------------------------------------------------------------
-function getMatchData(competitionId , matchday){
-    var route = url + "/competition/id/" + competitionId + "/matchday/" + matchday;
+function getMatchData(competitionId , matchday, type){
+    if(type == "liga") var route = ligaUrl + "/competition/id/" + competitionId + "/matchday/" + matchday;
+
+    if(type == "cup"){
+      if(matchday == 0){
+      	var route = cupUrl + "/" + competitionId; 
+        
+      }else{
+      	var route = cupUrl + "/" + competitionId + "/" + season + "/" +matchday; 
+        
+      }
+  
+    }
+    
+    console.log(route);
     fetch(route)
     .then(function(response) {
     if (response.ok)
@@ -63,14 +94,29 @@ function getMatchData(competitionId , matchday){
       throw new Error('Fehler beim laden');
    })	
     .then(function(json) {
-    var actualMatchDay = json.data.actualMatchDay;
-    var staffelname = json.data.staffelname;
+    if(type == "liga"){
+    	var actualMatchDay = json.data.actualMatchDay;
+    	var staffelname = json.data.staffelname;
+    	resultsTableBody.innerHTML = json.data.matches.map(drawLigaResults).join('\n');
+    	tableTableHead.innerHTML = `<th>&nbsp;</th><th>Verein</th><th>Sp</th><th>Pu</th><th>TV</th>` ;
+    	tableTableBody.innerHTML = json.data.tabelle.map(drawLigaTable).join('\n');
+
+    } 
+    if(type == "cup"){
+    	var actualMatchDay = json[0].Group.GroupOrderID;
+    	var groupName = json[0].Group.GroupName;
+    	var staffelname = json[0].LeagueName;
+
+    	resultsTableBody.innerHTML = json.map(drawCupResults).join('\n');
+    	console.log(route);
+
+    } 
+    
+    
     if(matchday == 0) selMatchday = actualMatchDay;
-    console.log(staffelname + "ST: " + selMatchday);
+    
     matchdayContainer.innerHTML = staffelname + " , " + selMatchday + ". ST";
-    resultsTableBody.innerHTML = json.data.matches.map(drawResultTable).join('\n');
-    tableTableHead.innerHTML = `<th>&nbsp;</th><th>Verein</th><th>Sp</th><th>Pu</th><th>TV</th>` ;
-    tableTableBody.innerHTML = json.data.tabelle.map(drawTableTable).join('\n');
+    
 
     console.log(json);
   
@@ -81,17 +127,17 @@ function getMatchData(competitionId , matchday){
 };
 //----------------------------------------------------------------
 
-function drawResultTable(match){
+function drawLigaResults(match){
   return `<tr>
     <td>${match.kickoffDate.substring(0,5)}<br>
       ${match.kickoffTime}</td>
       <td>${match.homeTeamName.substring(0,24)}<br>
-      ${match.guestTeamName.substring(0,24)}</td>
+          ${match.guestTeamName.substring(0,24)}</td>
       <td>${match.result}</td>
     </tr>`;
 }
 
-function drawTableTable(match){
+function drawLigaTable(match){
   return `<tr>
     <td>${match.rang}</td>
     <td>${match.teamname.substring(0,24)}</td>
@@ -101,6 +147,20 @@ function drawTableTable(match){
     </tr>`;
 }
 
-
+function drawCupResults(match){
+	if(match.MatchResults.length == 0){
+		var res = "";
+	}else{
+		var res = match.MatchResults[0].PointsTeam1 + ":" + match.MatchResults[0].PointsTeam2;
+	}
+	//var res = match.MatchResults.PointsTeam1 ;
+	console.log(match.MatchResults);
+  return `<tr>
+    <td>${match.MatchDateTime.substring(0,15)}</td>
+      <td>${match.Team1.TeamName.substring(0,24)}<br>
+          ${match.Team2.TeamName.substring(0,24)}</td>
+      <td>${res}</td>
+    </tr>`;
+}
 
 //console.log(md);
