@@ -5,10 +5,15 @@ body{
 	font-weight: 300;
 	margin: 5px 5px 5px 5px;
 	width: 95vw;
+	background-color: #ffd9b3;
 
 }
 main {
   
+}
+button{
+	background-color: #ffe6cc;
+	border-radius: 4px;
 }
 table{
 	border-collapse: collapse;
@@ -17,13 +22,14 @@ table{
     margin-right:auto;
     margin-top: 5px;
 	margin-bottom: 5px;
+	background-color: #ffcc99;
 }
 .navTable td{
     
     
 }
 .resultsTable tr:nth-child(even) {
-	background-color: #dddddd;
+	background-color: #ffe6cc;
 }
 
 .resultsTable{
@@ -31,10 +37,10 @@ table{
 	}
 
 .tableTable tr:nth-child(even){
-	background-color: #dddddd;
+	background-color: #ffe6cc;
 	}
 .tableTable th{
-	background-color: #dddddd;
+	//background-color: #dddddd;
 	}
 	.navButtons{
 		width: 50px;

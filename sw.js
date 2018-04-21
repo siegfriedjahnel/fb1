@@ -18,7 +18,7 @@
   // Prevent the default, and handle the request ourselves.
   event.respondWith(async function() {
     // Try to get the response from a cache.
-    const dynamicCache = await caches.open('dynamic-v2');
+    const dynamicCache = await caches.open('dynamic-v3');
     
     const networkResponse = await fetch(event.request);
     if (networkResponse) {
