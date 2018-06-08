@@ -14,6 +14,8 @@ main {
 button{
 	background-color: #ffe6cc;
 	border-radius: 4px;
+	height: 3em;
+
 }
 table{
 	border-collapse: collapse;
@@ -42,8 +44,8 @@ table{
 .tableTable th{
 	//background-color: #dddddd;
 	}
-	.navButtons{
-		width: 50px;
+.navButtons{
+		width: 3.0em;
 	}
 
 
