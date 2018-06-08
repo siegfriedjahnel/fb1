@@ -82,7 +82,7 @@ function getMatchData(competitionId , matchday, type){
       	var route = cupUrl + "/" + competitionId + "/" + season + "/" +matchday; 
         }
       }
-    
+    resultsTableBody.innerHTML = "loading!";
     fetch(route)
     .then(function(response) {
     if (response.ok)
